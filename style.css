@@ -1,56 +1,75 @@
 body {
   min-height: 100vh;
-  min-width: 100vh;
+  min-width: 100vw;
   background-color: #12181f;
   color: white;
+  margin: 0;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
 h1 {
-    text-align: center;
-    font-weight: 700;
-    font-size: 50px;
+  text-align: center;
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3.125rem); /* 32px - 50px */
+  margin: 1rem 0;
 }
 
 p {
-    text-align: center;
-    font-size: 30px;
-    font-weight: bold;
+  text-align: center;
+  font-size: clamp(1.25rem, 3vw, 1.875rem); /* 20px - 30px */
+  font-weight: bold;
+  margin: 1rem 0;
 }
 
 .actions {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
 }
 
 .actions button {
-    padding: 8px 16px;
-    font-size: 30px;
-    border-radius: 10px;
-    background-color: #27ae60;
-    color: white;
+  padding: 0.5rem 1rem;
+  font-size: clamp(1.25rem, 3vw, 1.875rem); /* 20px - 30px */
+  border-radius: 10px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.actions button:hover {
+  opacity: 0.9;
 }
 
 .grid-container {
   display: grid;
   justify-content: center;
-  grid-gap: 16px;
-  grid-template-columns: repeat(6, 140px);
-  grid-template-rows: repeat(2, calc(140px / 2 * 3));
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 140px));
+  grid-auto-rows: minmax(calc(120px / 2 * 3), calc(140px / 2 * 3));
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
 }
 
 .card {
-  height: calc(140px / 2 * 3);
-  width: 140px;
+  height: 100%;
+  width: 100%;
+  aspect-ratio: 2/3;
   border-radius: 10px;
   background-color: white;
   position: relative;
   transform-style: preserve-3d;
   transition: all 0.5s ease-in-out;
+  cursor: pointer;
 }
 
 .front-image {
-  width: 60px;
-  height: 60px;
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
 }
 
 .card.flipped {
@@ -58,28 +77,101 @@ p {
 }
 
 .front, .back {
-    backface-visibility: hidden;
-    position: absolute;
-    border-radius: 10px;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
+  backface-visibility: hidden;
+  position: absolute;
+  border-radius: 10px;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
 }
 
 .card .front {
   display: flex;
   justify-content: center;
   align-items: center;
+  transform: rotateY(180deg);
 }
 
 .card .back {
   background-image: url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='25' height='25' patternTransform='scale(2) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(0,0%,100%,1)'/><path d='M25 30a5 5 0 110-10 5 5 0 010 10zm0-25a5 5 0 110-10 5 5 0 010 10zM0 30a5 5 0 110-10 5 5 0 010 10zM0 5A5 5 0 110-5 5 5 0 010 5zm12.5 12.5a5 5 0 110-10 5 5 0 010 10z'  stroke-width='1' stroke='none' fill='hsla(174, 100%, 29%, 1)'/><path d='M0 15a2.5 2.5 0 110-5 2.5 2.5 0 010 5zm25 0a2.5 2.5 0 110-5 2.5 2.5 0 010 5zM12.5 2.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5zm0 25a2.5 2.5 0 110-5 2.5 2.5 0 010 5z'  stroke-width='1' stroke='none' fill='hsla(187, 100%, 42%, 1)'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>");
   background-position: center center;
   background-size: cover;
-  backface-visibility: hidden;
 }
 
-.card .front {
-  transform: rotateY(180deg);
+/* Media Queries untuk berbagai ukuran layar */
+@media (max-width: 1200px) {
+  .grid-container {
+    grid-template-columns: repeat(4, minmax(100px, 120px));
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 12px;
+  }
+  
+  .grid-container {
+    grid-template-columns: repeat(3, minmax(80px, 100px));
+    gap: 12px;
+    padding: 12px;
+  }
+  
+  .actions button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 8px;
+  }
+  
+  .grid-container {
+    grid-template-columns: repeat(2, minmax(70px, 90px));
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  h1 {
+    font-size: 1.75rem;
+  }
+  
+  p {
+    font-size: 1.1rem;
+  }
+  
+  .actions button {
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+  }
+  
+  .front-image {
+    width: 50%;
+    height: 50%;
+  }
+}
+
+/* Untuk layar sangat kecil (mobile portrait) */
+@media (max-width: 320px) {
+  .grid-container {
+    grid-template-columns: repeat(2, minmax(60px, 75px));
+    gap: 8px;
+  }
+}
+
+/* Untuk orientasi landscape pada mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+  .grid-container {
+    grid-template-columns: repeat(6, minmax(80px, 100px));
+  }
+  
+  h1 {
+    margin: 0.5rem 0;
+  }
+  
+  p {
+    margin: 0.5rem 0;
+  }
 }
